@@ -1,15 +1,16 @@
 version: "3.9"
 services:
   # Base image containing dependencies.
-  dev:
-    image: rl_dev
+  base:
+    image: rl_image
     build:
       context: .
       dockerfile: ./docker/Dockerfile
-      #args:
-        #- UID=${UID:-1000}
-        #- GID=${UID:-1000}
-        #- USERNAME=${USERNAME:-devuser}
+      target: base
+      args:
+        - UID=${UID:-1000}
+        - GID=${UID:-1000}
+        - USERNAME=${USERNAME:-devuser}
     # Interactive shell
     stdin_open: true
     tty: true
@@ -23,20 +24,17 @@ services:
       - QT_X11_NO_MITSHM=1
       - NVIDIA_DRIVER_CAPABILITIES=all
     volumes:
-      ## Allows graphical programs in the container.
+      # Allows graphical programs in the container.
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - ${XAUTHORITY:-$HOME/.Xauthority}:/root/.Xauthority
-      - ./02465students:/dev_ws/:rw 
-#    deploy:
-      #resources:
-        #reservations:
-          #devices:
-            #- driver: nvidia
-              #count: 1
-              #capabilities: [gpu]
-    #user: ${USERNAME:-devuser}
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+    user: ${USERNAME:-devuser}
     command: sleep infinity
   
-  #viz:
-    #extends: dev
-    #command: rviz -d /overlay_ws/src/some_folder/rviz.rviz  
