@@ -1,0 +1,8 @@
+gymnasium[box2d]
+sympy
+tqdm
+seaborn
+pillow
+scikit-learn
+matplotlib
+requests # Required when updating the local files (read stuff from gitlab).
