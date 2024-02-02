@@ -2,14 +2,16 @@
 def add(a, b): 
     """  This function shuold return the sum of a and b. I.e. if print(add(2,3)) should print '5'. """
     # TODO: 1 lines missing.
-    raise NotImplementedError("Implement function body")
+    return a+b
+    #raise NotImplementedError("Implement function body")
 
 def misterfy(animals): 
     """
     Given a list of animals like animals=["cat", "wolf", "elephans"], this function should return
     a list like ["mr cat", "mr wolf", "mr elephant"]  """
     # TODO: 1 lines missing.
-    raise NotImplementedError("Implement function body")
+    return ["mr " + animal for animal in animals]
+    #raise NotImplementedError("Implement function body")
 
 def mean_value(p_dict): 
     """
@@ -17,10 +19,12 @@ def mean_value(p_dict):
     x, i.e. sum_i x_i * p(x_i). The recommended way is to use list comprehension and not numpy.
     Hint: Look at the .items() method and the build-in sum(my_list) method. """
     # TODO: 1 lines missing.
-    raise NotImplementedError("Implement function body")
+    return sum([value for key, value in p_dict.items()])/len(p_dict)
+    #raise NotImplementedError("Implement function body")
 
 def fruits_ordered(order_dict): 
     # TODO: 1 lines missing.
+    return [key for key, value in order_dict.items()]
     raise NotImplementedError("Implement function body")
 
 class BasicFruitShop:
@@ -37,7 +41,8 @@ class BasicFruitShop:
         to get the price.
         You don't need to do exception handling here. """
         # TODO: 1 lines missing.
-        raise NotImplementedError("Return cost of fruit as a floating point number")
+        return self.prices[fruit]
+        #raise NotImplementedError("Return cost of fruit as a floating point number")
 
 class OnlineFruitShop(BasicFruitShop):
     def price_of_order(self, order): 
@@ -50,7 +55,8 @@ class OnlineFruitShop(BasicFruitShop):
          > the total is sum of {pounds} * {cost_per_pound}
         """
         # TODO: 1 lines missing.
-        raise NotImplementedError("return the total cost of the order")
+        return sum([self.prices[item]*quantity for item, quantity in order.items()])
+        #raise NotImplementedError("return the total cost of the order")
 
 
 def shop_smart(order, fruit_shops): 
@@ -65,8 +71,10 @@ def shop_smart(order, fruit_shops):
         > return fruitShops[lowest_index].
     """
     # TODO: 2 lines missing.
-    raise NotImplementedError("Implement function body")
-    return best_shop
+    cost_list = [shop.price_of_order(order) for shop in fruit_shops]
+    lowest_index = cost_list.index(min(cost_list))
+    #raise NotImplementedError("Implement function body")
+    return fruit_shops[lowest_index]
 
 
 if __name__ == '__main__':
@@ -117,3 +125,4 @@ if __name__ == '__main__':
     print("For the order", order, " the best shop is", shop_smart(order, shops).name)
     order = {'apples': 3.0}  # test with a new order.
     print("For the order", order, " the best shop is", shop_smart(order, shops).name) 
+

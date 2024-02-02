@@ -12,10 +12,16 @@ RUN apt-get update && apt-get install -y \
   python3-pip \
   #python3-tk \
   wget \
-  vim
+  vim \
+  swig
+
 
 WORKDIR /dev_ws
 COPY 02465students/ .
+#Install requirements
+RUN pip install -r requirements_conda.txt --no-cache-dir
+RUN pip install -r requirements_pip.txt --no-cache-dir
+
 
 # Remove display warnings
 RUN mkdir /tmp/runtime-root
@@ -43,3 +49,5 @@ RUN chown -R ${UID}:${GID} /dev_ws/
 
 # Set the user and source entrypoint in the user's .bashrc file
 USER ${USERNAME}
+
+RUN echo "/home/steven/.local/bin" >> /home/${USERNAME}/.bashrc

@@ -3,33 +3,55 @@ import gymnasium
 import numpy as np
 from gymnasium.spaces.discrete import Discrete
 from irlc.ex01.agent import Agent, train
+import random
 
 class BobFriendEnvironment(gymnasium.Env): 
     def __init__(self, x0=20):
         self.x0 = x0
         self.action_space = Discrete(2)     # Possible actions {0, 1} 
+        self.probability_u1 = 3/4
+        self.probability_u0 = 1/4
 
     def reset(self):
         # TODO: 1 lines missing.
-        raise NotImplementedError("Insert your solution and remove this error.")
+        #raise NotImplementedError("Insert your solution and remove this error.")
+        self.s = 0
         return self.s, {}
 
-    def step(self, a):
+    def step(self, a: int):
         # TODO: 9 lines missing.
-        raise NotImplementedError("Insert your solution and remove this error.")
+        if a == 0:
+            s_next: float = self.x0 * 1.1
+            reward: float = s_next - self.x0
+            terminated = True
+        else:
+            # Randomly choose between u=1 and u=0 based on probabilities
+            chosen_action = random.choices([1, 0], weights=[self.probability_u1, self.probability_u0])[0]
+            # Print the chosen action
+            if chosen_action == 1:
+                s_next: float = self.x0 + 12
+                reward: float = s_next - self.x0
+                terminated = True
+            else:
+                s_next: float = 0
+                reward: float = s_next - self.x0
+                terminated = True
+        #raise NotImplementedError("Insert your solution and remove this error.")
+        self.s = s_next
         return s_next, reward, terminated, False, {}
 
 class AlwaysAction_u0(Agent):
     def pi(self, s, k, info=None):  
         """This agent should always take action u=0."""
-        # TODO: 1 lines missing.
-        raise NotImplementedError("Implement function body")
-
+        ## TODO: 1 lines missing.
+        #raise NotImplementedError("Implement function body")
+        return 0
 class AlwaysAction_u1(Agent):
     def pi(self, s, k, info=None):  
         """This agent should always take action u=1."""
         # TODO: 1 lines missing.
-        raise NotImplementedError("Implement function body")
+        #raise NotImplementedError("Implement function body")
+        return 1
 
 def run_bob():
     # Part A:
